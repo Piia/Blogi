@@ -1,0 +1,24 @@
+{% extends "suunnitelmat/suunnitelma.html" %}
+{% block content %}
+
+<h2>Kirjaudu sisään</h2>
+
+<!-- Kaikki lomakkeen elementit form-tagin sisään -->
+<form>
+<!-- Tekstikenttä käyttäjätunnukselle -->
+    <div class="form-group">
+      <label>Käyttäjätunnus</label>
+      <input class="form-control" type="text">
+    </div>
+
+    <!-- Salasanakenttä salasanalle -->
+    <div class="form-group">
+      <label>Salasana</label>
+      <input class="form-control" type="password">
+    </div>
+
+    <button type="submit" class="btn btn-info">Kirjaudu sisään</button>
+  </form>
+
+
+{% endblock %}

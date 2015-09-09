@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>
+            {% block title %}
+            Blogisovellus
+            {% endblock %}
+        </title>
+
+        {% block head %}
+        <!-- Bootstrap (tyylitiedosto) -->
+        <link href="{{base_path}}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Oma tyylitiedostomme -->
+        <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">
+        {% endblock %}
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <div class="header">
+              <h1>Blogisovellus</h1>
+              <p class="lead">Kuinka blogista tuli sovellus ja toisinpäin.</p>
+            </div>
+
+            <nav>
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="http://piiahart.users.cs.helsinki.fi/tsoha/">Etusivu</a></li>
+                <li><a href="{{base_path}}/app/views/suunnitelmat/bloggaajat.html">Bloggaajat</a></li>
+                <li><a href="{{base_path}}/app/views/suunnitelmat/kirjautuminen.html">Kirjaudu</a></li>
+                
+              </ul>
+            </nav>
+
+            <div class="row">
+
+                <div class="col-sm-8 blog-main">
+                    <!-- Dynaaminen sisältö tulee tähän -->
+
+
+                    {% block content %}{% endblock %}
+
+
+
+                </div><!-- /.blog-main -->
+
+                <div class="col-sm-3 col-sm-offset-1 sidebar">
+                    <div class="sidebar-module sidebar-module-inset">
+                      <img src="{{base_path}}/app/views/suunnitelmat/avatar.png">
+                    </div>
+                    <div class="sidebar-module sidebar-module-inset">
+                        <h4>Tervetuloa!</h4>
+                        <p>Tämä on omatekemäni blogisovellus. Eikö olekin hieno! Valitsin pirteät värit pimeää syksyä silmälläpitäen.</p>
+                    </div>
+                    <div class="sidebar-module">
+                        <h4>Tunnisteet</h4>
+                        <ol class="list-unstyled">
+                            <li><a href="#">Syksy</a></li>
+                            <li><a href="#">Kaupungilla</a></li>
+                            <li><a href="#">Rakkaus</a></li>
+                            <li><a href="#">Ulkoilu</a></li>
+                        </ol>
+                    </div>
+                </div><!-- /.sidebar -->
+
+            </div><!-- /.row -->
+
+        </div><!-- /.container -->
+
+
+
+
+        {% block body %}
+        <!-- jQuery -->
+        <script src="{{base_path}}/vendor/jquery.min.js"></script>
+
+        <!-- Bootstrap (skriptitiedosto) -->
+        <script src="{{base_path}}/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Oma skriptitiedostomme -->
+        <script src="{{base_path}}/assets/js/site.js"></script>
+        {% endblock %}
+    </body>
+</html>

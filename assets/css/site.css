@@ -1,10 +1,11 @@
-#main-container{
-  max-width: 1200px;
-  padding: 10px 25px;
-  margin: 0px auto;
+body {
+	background-color: #FFAA44;
 }
 
-.navbar .container-fluid{
-  max-width: 1200px;
-  margin: 0px auto;
+
+.container {
+	background-color: #FFFFFF;
+	border-radius: 25px;
+    border: 1px solid #000000;
+    padding: 20px;
 }
