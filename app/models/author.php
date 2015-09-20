@@ -2,24 +2,19 @@
 
 class Author extends BaseModel{
 
-  	public $id, $name, $password, $image_url $description;
+  	public $id, $name, $password, $image_url, $description;
 
   	public function __construct($attributes){
     	parent::__construct($attributes);
   	}
 
   	public static function all(){
-    // Alustetaan kysely tietokantayhteydellämme
     	$query = DB::connection()->prepare('SELECT * FROM Author');
-    // Suoritetaan kysely
     	$query->execute();
-    // Haetaan kyselyn tuottamat rivit
     	$rows = $query->fetchAll();
     	$authors = array();
 
-    // Käydään kyselyn tuottamat rivit läpi
     	foreach($rows as $row){
-      // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
       		$authors[] = new Author(array(
         		'id' => $row['id'],
         		'name' => $row['name'],
@@ -51,4 +46,31 @@ class Author extends BaseModel{
 
     	return null;
   	}
+
+    public function save(){
+      $query = DB::connection()->prepare('INSERT INTO Author (name, password, image_url, description) VALUES (:name, :password, :image_url, :description) RETURNING id');
+      $query->execute(array('name' => $this->name, 'password' => $this->password, 'image_url' => $this->image_url, 'description' => $this->description));
+      $row = $query->fetch();
+      $this->id = $row['id'];
+    }
+
+    public static function authenticate($name, $password) {
+      $query = DB::connection()->prepare('SELECT * FROM Author WHERE name = :name AND password = :password LIMIT 1');
+      $query->execute(array('name' => $name, 'password' => $password));
+      $row = $query->fetch();
+      
+      if($row){
+        $author = new Author(array(
+          'id' => $row['id'],
+          'name' => $row['name'],
+          'password' => $row['password'],
+          'image_url' => $row['image_url'],
+          'description' => $row['description']
+        ));
+
+        return $author;
+      }
+
+      return null;
+    }
 }

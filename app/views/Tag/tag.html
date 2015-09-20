@@ -1,0 +1,35 @@
+{% extends "suunnitelmat/suunnitelma.html" %}
+{% block content %}
+
+	<article>
+		<h2>Tunniste: {{tag.name}}</h2>
+
+		<p>
+
+			<form method="post" action="{{base_path}}/tag/update/{{tag.id}}">
+
+  				<div class="form-group">
+    				<label>Muokkaa nimeä</label>
+    				<input name="name" class="form-control" type="text" value="{{tag.name}}"></input>
+  				</div>
+
+  				<button type="submit" class="btn btn-default">Lähetä</button>
+  
+  			</form>
+
+		</p>
+		<hr>
+	</article>
+	<article>
+		<h3>Poista tunniste</h3>
+		<p>
+
+			<form method="post" action="{{base_path}}/tag/delete/{{tag.id}}" style="display: inline-block;">
+  				<button type="submit" class="btn btn-danger">Poista</button>
+			</form>
+
+		</p>
+
+	</article>
+
+{% endblock %}

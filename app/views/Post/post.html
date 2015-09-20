@@ -1,0 +1,28 @@
+{% extends "suunnitelmat/suunnitelma.html" %}
+{% block content %}
+
+<article>
+  <h2>{{post.header}}</h2>
+  <p>{{post.created}} by <a href="#">{{post.author}}</a></p>
+  <p>
+    {{post.content}}
+  </p>
+  <p>
+    <button type="submit" class="btn btn-default" value="{{post.id}}">Kommentit</button>
+  </p>
+  <hr>
+</article>
+
+<!-- 
+{% for comment in comments %}
+	<article class="comment">
+		<h3>{{comment.header}}</h3>
+		<p>{{comment.created}} by {{comment.author}}</p>
+		<p>{{comment.content}}</p>
+		<hr>
+	</article>
+{% endfor %}
+-->
+
+
+{% endblock %}

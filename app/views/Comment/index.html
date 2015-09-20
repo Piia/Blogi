@@ -1,0 +1,16 @@
+{% extends "suunnitelmat/suunnitelma.html" %}
+{% block content %}
+
+{% for comment in comments %}
+
+<article>
+  <h3>{{comment.header}}</h3>
+  <p>{{comment.created}} by {{comment.name}}</p>
+  <p>
+    {{comment.content}}
+  </p>
+  <hr>
+</article>
+
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "suunnitelmat/suunnitelma.html" %}
+{% block content %}
+
+<h2>Blogin kirjoittajat</h2>
+
+<article>
+	<table>
+{% for author in authors %}
+		<tr>
+			<td>
+				<img src="{{author.image_url}}" class="profile_picture">
+			</td>
+			<td>
+				<h3><a href="/tsoha/author/{{author.id}}">{{author.name}}</a></h3>
+  				<p>{{author.description}}</p>
+  			</td>
+  		</tr>
+{% endfor %}
+	</table>
+</article>
+
+{% endblock %}

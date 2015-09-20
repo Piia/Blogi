@@ -1,54 +1,59 @@
 <?php
 
-class Author extends BaseModel{
+class Post extends BaseModel{
 
-  	public $id, $name, $password, $image_url $description;
+  	public $id, $author_id, $header, $content, $created, $edited;
 
   	public function __construct($attributes){
     	parent::__construct($attributes);
   	}
 
   	public static function all(){
-    // Alustetaan kysely tietokantayhteydellämme
-    	$query = DB::connection()->prepare('SELECT * FROM Author');
-    // Suoritetaan kysely
+    	$query = DB::connection()->prepare('SELECT * FROM Post');
     	$query->execute();
-    // Haetaan kyselyn tuottamat rivit
     	$rows = $query->fetchAll();
-    	$authors = array();
+    	$posts = array();
 
-    // Käydään kyselyn tuottamat rivit läpi
     	foreach($rows as $row){
-      // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
-      		$authors[] = new Author(array(
+      		$posts[] = new Post(array(
         		'id' => $row['id'],
-        		'name' => $row['name'],
-        		'password' => $row['password'],
-        		'image_url' => $row['image_url'],
-        		'description' => $row['description']
+            'author_id' => $row['author_id'],
+            //'author' => $(Author::find($posts['author_id']))->name,
+            'header' => $row['header'],
+            'content' => $row['content'],
+            'created' => $row['created'],
+            'edited' => $row['edited']
       		));
     	}
 
-    	return $authors;
+    	return $posts;
   	}
 
   	public static function find($id){
-    	$query = DB::connection()->prepare('SELECT * FROM Author WHERE id = :id LIMIT 1');
+    	$query = DB::connection()->prepare('SELECT * FROM Post WHERE id = :id LIMIT 1');
     	$query->execute(array('id' => $id));
     	$row = $query->fetch();
 
 	    if($row){
-	      $author = new Author(array(
-	        'id' => $row['id'],
-        	'name' => $row['name'],
-        	'password' => $row['password'],
-        	'image_url' => $row['image_url'],
-        	'description' => $row['description']
+	      $post = new Post(array(
+            'id' => $row['id'],
+            'author_id' => $row['author_id'],
+            'header' => $row['header'],
+            'content' => $row['content'],
+            'created' => $row['created'],
+            'edited' => $row['edited']
 	      ));
 
-	      return $author;
+	      return $post;
 	    }
 
     	return null;
   	}
+
+    public function save(){
+      $query = DB::connection()->prepare('INSERT INTO Post (header, content, created, edited) VALUES (:header, :content, :created, :edited) RETURNING id');
+      $query->execute(array('header' => $this->header, 'content' => $this->content, 'created' => $this->created, 'edited' => $this->edited));
+      $row = $query->fetch();
+      $this->id = $row['id'];
+    }
 }

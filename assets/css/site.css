@@ -9,3 +9,16 @@ body {
     border: 1px solid #000000;
     padding: 20px;
 }
+
+.profile_picture {
+	float: left;
+	margin: 20px;
+	width: 100px;
+	height: 100px;
+	border: 1px solid black;
+	border-color: #000000;
+}
+
+.comment {
+	background-color: #DDDDDD;
+}

@@ -1,0 +1,23 @@
+{% extends "suunnitelmat/suunnitelma.html" %}
+{% block content %}
+
+<h2>Uusi kirjoitus</h2>
+
+<form method="post" action="{{base_path}}/post/new">
+
+  <div class="form-group">
+    <label>Otsikko</label>
+    <input name="header" class="form-control" type="text"></input>
+  </div>
+
+  <div class="form-group">
+    <label>Sisältö</label>
+    <textarea name="content" class="form-control" type="text" rows="15">Kirjoita tähän...</textarea>
+  </div>
+
+  <button type="submit" class="btn btn-default">Lähetä</button>
+  
+  </form>
+
+
+{% endblock %}

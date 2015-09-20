@@ -1,0 +1,19 @@
+{% extends "suunnitelmat/suunnitelma.html" %}
+{% block content %}
+
+<h2>{{author.name}}</h2>
+
+<article>
+	<table>
+		<tr>
+			<td>
+				<img src="{{author.image_url}}" class="profile_picture">
+			</td>
+			<td>
+  				<p>{{author.description}}</p>
+  			</td>
+  		</tr>
+	</table>
+</article>
+
+{% endblock %}

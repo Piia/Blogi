@@ -31,19 +31,20 @@
 
             <nav>
               <ul class="nav nav-tabs">
-                <li class="active"><a href="http://piiahart.users.cs.helsinki.fi/tsoha/">Etusivu</a></li>
-                <li><a href="{{base_path}}/app/views/suunnitelmat/bloggaajat.html">Bloggaajat</a></li>
-                <li><a href="{{base_path}}/app/views/suunnitelmat/kirjautuminen.html">Kirjaudu</a></li>
-                
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/">Etusivu</a></li>
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/author">Bloggaajat</a></li>
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/tag">Tunnisteet</a></li>
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/post/new">Uusi kirjoitus</a></li>
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/author/login">Kirjaudu sisään</a></li>                
               </ul>
             </nav>
 
             <div class="row">
 
                 <div class="col-sm-8 blog-main">
-                    <!-- Dynaaminen sisältö tulee tähän -->
 
 
+                    <!-- DYNAAMINEN SISÄLTÖ -->
                     {% block content %}{% endblock %}
 
 
@@ -51,22 +52,33 @@
                 </div><!-- /.blog-main -->
 
                 <div class="col-sm-3 col-sm-offset-1 sidebar">
+                    
                     <div class="sidebar-module sidebar-module-inset">
-                      <img src="{{base_path}}/app/views/suunnitelmat/avatar.png">
+                        <img src="{{base_path}}/app/views/suunnitelmat/avatar.png">
                     </div>
+
                     <div class="sidebar-module sidebar-module-inset">
                         <h4>Tervetuloa!</h4>
                         <p>Tämä on omatekemäni blogisovellus. Eikö olekin hieno! Valitsin pirteät värit pimeää syksyä silmälläpitäen.</p>
                     </div>
+
                     <div class="sidebar-module">
+
                         <h4>Tunnisteet</h4>
                         <ol class="list-unstyled">
                             <li><a href="#">Syksy</a></li>
                             <li><a href="#">Kaupungilla</a></li>
                             <li><a href="#">Rakkaus</a></li>
                             <li><a href="#">Ulkoilu</a></li>
+                            
+                            <!-- {% for tag in tags %}
+                            <li><a href="#">{{tag.name}}</a></li>
+                            {% endfor %} -->
+
                         </ol>
+
                     </div>
+
                 </div><!-- /.sidebar -->
 
             </div><!-- /.row -->

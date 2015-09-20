@@ -1,25 +1,20 @@
 <?php
 
-class Tag extends BaseModel{
+class Tag extends BaseModel {
 
   	public $id, $name;
 
-  	public function __construct($attributes){
+  	public function __construct($attributes) {
     	parent::__construct($attributes);
   	}
 
-  	public static function all(){
-    // Alustetaan kysely tietokantayhteydellämme
+  	public static function all() {
     	$query = DB::connection()->prepare('SELECT * FROM Tag');
-    // Suoritetaan kysely
     	$query->execute();
-    // Haetaan kyselyn tuottamat rivit
     	$rows = $query->fetchAll();
     	$tags = array();
 
-    // Käydään kyselyn tuottamat rivit läpi
     	foreach($rows as $row){
-      // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
       		$tags[] = new Tag(array(
         		'id' => $row['id'],
         		'name' => $row['name']
@@ -29,7 +24,7 @@ class Tag extends BaseModel{
     	return $tags;
   	}
 
-  	public static function find($id){
+  	public static function find($id) {
     	$query = DB::connection()->prepare('SELECT * FROM Tag WHERE id = :id LIMIT 1');
     	$query->execute(array('id' => $id));
     	$row = $query->fetch();
@@ -42,7 +37,26 @@ class Tag extends BaseModel{
 
 	      return $tag;
 	    }
-
     	return null;
   	}
+
+    public function save() {
+      $query = DB::connection()->prepare('INSERT INTO Tag (name) VALUES (:name) RETURNING id');
+      $query->execute(array('name' => $this->name));
+      $row = $query->fetch();
+      $this->id = $row['id'];
+    }
+
+    public function update() {
+      $query = DB::connection()->prepare('UPDATE Tag SET name = :name WHERE id = :id');
+      $query->execute(array('name' => $this->name, 'id' => $this->id));
+      $row = $query->fetch();
+    }
+
+    public function delete() {
+      $query = DB::connection()->prepare('DELETE FROM Tag WHERE id = :id');
+      $query->execute(array('id' => $this->id));
+      $row = $query->fetch();
+    }
+
 }

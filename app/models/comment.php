@@ -9,17 +9,12 @@ class Comment extends BaseModel{
   	}
 
   	public static function all(){
-    // Alustetaan kysely tietokantayhteydellämme
     	$query = DB::connection()->prepare('SELECT * FROM Comment');
-    // Suoritetaan kysely
     	$query->execute();
-    // Haetaan kyselyn tuottamat rivit
     	$rows = $query->fetchAll();
     	$comments = array();
 
-    // Käydään kyselyn tuottamat rivit läpi
     	foreach($rows as $row){
-      // Tämä on PHP:n hassu syntaksi alkion lisäämiseksi taulukkoon :)
       		$comments[] = new Comment(array(
         		'id' => $row['id'],
             'post_id' => $row['post_id'],
@@ -55,4 +50,12 @@ class Comment extends BaseModel{
 
     	return null;
   	}
+
+    public function save(){
+      $query = DB::connection()->prepare('INSERT INTO Comment (name, header, content, created, edited) VALUES (:name, :header, :content, :created, :content) RETURNING id');
+      $query->execute(array('name' => $this->name, 'header' => $this->header, 'content' => $this->content, 'created' => $this->created, 'edited'=> $this->edited));
+      $row = $query->fetch();
+      $this->id = $row['id'];
+    }
+
 }
