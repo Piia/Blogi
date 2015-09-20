@@ -4,6 +4,11 @@
 <h2>Blogin kirjoittajat</h2>
 
 <article>
+	<p>
+
+		Bloggaajan omalla sivulla voit muokata bloggaajan tietoja tai poistaa bloggaajan.
+
+	</p>
 	<table>
 {% for author in authors %}
 		<tr>
@@ -17,6 +22,42 @@
   		</tr>
 {% endfor %}
 	</table>
+	<hr>
 </article>
+
+<article>
+
+		<h3>Lisää uusi</h3>
+		<p>
+
+			<form method="post" action="{{base_path}}/author/new">
+
+  				<div class="form-group">
+    				<label>Nimi</label>
+    				<input name="name" class="form-control" type="text"></input>
+  				</div>
+
+  				<div class="form-group">
+    				<label>Salasana</label>
+    				<input name="password" class="form-control" type="password"></input>
+  				</div>
+
+  				<div class="form-group">
+    				<label>Kuvan url</label>
+    				<input name="image_url" class="form-control" type="text"></input>
+  				</div>
+
+  				<div class="form-group">
+  					<label>Kuvaus</label>
+  					<textarea name="description" class="form-control" type="text" rows="5"></textarea>
+  				</div>	
+  				
+  				<button type="submit" class="btn btn-default">Lähetä</button>
+  
+  			</form>
+
+		</p>
+
+	</article>
 
 {% endblock %}

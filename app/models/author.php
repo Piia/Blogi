@@ -54,6 +54,18 @@ class Author extends BaseModel{
       $this->id = $row['id'];
     }
 
+    public function update() {
+      $query = DB::connection()->prepare('UPDATE Author SET name = :name, password = :password, image_url = :image_url, description = :description WHERE id = :id');
+      $query->execute(array('name' => $this->name, 'password' => $this->password, 'image_url' => $this->image_url, 'description' => $this->description, 'id' => $this->id));
+      $row = $query->fetch();
+    }
+
+    public function delete() {
+      $query = DB::connection()->prepare('DELETE FROM Author WHERE id = :id');
+      $query->execute(array('id' => $this->id));
+      $row = $query->fetch();
+    }
+
     public static function authenticate($name, $password) {
       $query = DB::connection()->prepare('SELECT * FROM Author WHERE name = :name AND password = :password LIMIT 1');
       $query->execute(array('name' => $name, 'password' => $password));

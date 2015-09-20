@@ -1,0 +1,40 @@
+{% extends "suunnitelmat/suunnitelma.html" %}
+{% block content %}
+
+<article>
+
+<h2>Muokkaa kirjoitusta</h2>
+
+<p>Valitettavasti tällä hetkellä kaikki kirjoitukset merkataan Piian tekemiksi. </p>
+
+<form method="post" action="{{base_path}}/post/{{post.id}}/update">
+
+  <div class="form-group">
+    <label>Otsikko</label>
+    <input name="header" class="form-control" type="text" value="{{post.header}}"></input>
+  </div>
+
+  <div class="form-group">
+    <label>Sisältö</label>
+    <textarea name="content" class="form-control" type="text" rows="15">{{post.content}}</textarea>
+  </div>
+
+  <button type="submit" class="btn btn-default">Lähetä</button>
+  
+  </form>
+</article>
+
+<article>
+  <h3>Poista kirjoitus</h3>
+  <p>
+
+  <form method="post" action="{{base_path}}/post/{{post.id}}/delete" style="display: inline-block;">
+      <button type="submit" class="btn btn-danger">Poista</button>
+  </form>
+
+  </p>
+
+</article>
+
+
+{% endblock %}

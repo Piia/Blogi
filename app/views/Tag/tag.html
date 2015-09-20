@@ -6,7 +6,7 @@
 
 		<p>
 
-			<form method="post" action="{{base_path}}/tag/update/{{tag.id}}">
+			<form method="post" action="{{base_path}}/tag/{{tag.id}}/update">
 
   				<div class="form-group">
     				<label>Muokkaa nimeä</label>
@@ -24,7 +24,7 @@
 		<h3>Poista tunniste</h3>
 		<p>
 
-			<form method="post" action="{{base_path}}/tag/delete/{{tag.id}}" style="display: inline-block;">
+			<form method="post" action="{{base_path}}/tag/{{tag.id}}/delete" style="display: inline-block;">
   				<button type="submit" class="btn btn-danger">Poista</button>
 			</form>
 

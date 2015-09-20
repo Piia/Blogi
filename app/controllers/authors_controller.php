@@ -11,6 +11,45 @@ class AuthorController extends BaseController {
     	View::make('Author/author.html', array('author' => $author));
 	}
 
+  public static function store() {
+    $params = $_POST;
+    $author = new Author(array(
+      'name' => $params['name'],
+      'password' => $params['password'],
+      'image_url' => $params['image_url'],
+      'description' => $params['description']
+    ));
+
+    $author->save();
+    Redirect::to('/author/' . $author->id);
+    //, array('message' => 'Uusi bloggaaja lisätty!')
+  }
+
+  public static function update($id) {
+    $params = $_POST;
+
+    $attributes = array(
+      'id' => $id,
+      'name' => $params['name'],
+      'password' => $params['password'],
+      'image_url' => $params['image_url'],
+      'description' => $params['description']
+    );
+
+    $author = new Author($attributes);
+    $author->update();
+    Redirect::to('/author/' . $author->id);
+    //, array('message' => 'Bloggaajaa muokattu!')
+  }
+
+ 
+  public static function delete($id){ 
+    $author = new Author(array('id' => $id));
+    $author->delete();
+    Redirect::to('/author');
+    //, array('message' => 'Bloggaaja poistettu!')
+  }
+
 	public static function login_view() {
 		View::make('Author/login.html');
 	}

@@ -1,9 +1,10 @@
 {% extends "suunnitelmat/suunnitelma.html" %}
 {% block content %}
 
-<h2>{{author.name}}</h2>
+<h2>Bloggaaja: {{author.name}}</h2>
 
 <article>
+	<p>
 	<table>
 		<tr>
 			<td>
@@ -14,6 +15,55 @@
   			</td>
   		</tr>
 	</table>
+	</p>
+
+	<hr>
+</article>
+<article>
+	<h3>Muokkaa bloggaajan tietoja</h3>
+	<p>
+
+		<form method="post" action="{{base_path}}/author/{{author.id}}/update">
+
+  			<div class="form-group">
+    			<label>Nimi</label>
+    			<input name="name" class="form-control" type="text" value="{{author.name}}"></input>
+  			</div>
+
+  			<div class="form-group">
+    			<label>Salasana</label>
+    			<input name="password" class="form-control" type="password" value="{{author.password}}"></input>
+  			</div>
+
+			<div class="form-group">
+    			<label>Kuvan url</label>
+    			<input name="image_url" class="form-control" type="text" value="{{author.image_url}}"></input>
+  			</div>
+
+  			<div class="form-group">
+    			<label>Kuvaus</label>
+    			<textarea rows="5" name="description" class="form-control" type="text">{{author.description}}</textarea>
+  			</div>
+
+
+
+  			<button type="submit" class="btn btn-default">Lähetä</button>
+  
+  		</form>
+
+	</p>
+		<hr>
+</article>
+<article>
+	<h3>Poista bloggaaja</h3>
+	<p>
+
+	<form method="post" action="{{base_path}}/author/{{author.id}}/delete" style="display: inline-block;">
+  		<button type="submit" class="btn btn-danger">Poista</button>
+	</form>
+
+	</p>
+
 </article>
 
 {% endblock %}

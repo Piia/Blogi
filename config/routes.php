@@ -15,27 +15,27 @@ $routes->get('/post', function(){
   	PostController::index();
 });
 
-$routes->post('/post', function(){
-  	PostController::create();
-});
-
 $routes->get('/post/new', function(){
   	PostController::form_view();
 });
 
 $routes->post('/post/new', function(){
-    PostController::handle_form();
+    PostController::store();
 });
 
 $routes->get('/post/:id', function($id){
 	PostController::show($id);
 });
 
-$routes->post('/post/delete/:id', function($id){
+$routes->post('/post/:id/delete', function($id){
 	PostController::delete($id);
 });
 
-$routes->post('/post/update/:id', function($id){
+$routes->get('/post/:id/update', function($id){
+    PostController::update_form_view($id);
+});
+
+$routes->post('/post/:id/update', function($id){
 	PostController::update($id);
 });
 
@@ -46,10 +46,6 @@ $routes->get('/author', function(){
   AuthorController::index();
 });
 
-//$routes->post('/author/new', function() {
-//	AuthorController::new($id);
-//});
-
 $routes->get('/author/login', function(){
   AuthorController::login_view();
 });
@@ -58,9 +54,23 @@ $routes->post('/author/login', function(){
   AuthorController::handle_login();
 });
 
+$routes->post('/author/new', function(){
+  AuthorController::store();
+});
+
 $routes->get('/author/:id', function($id) {
   AuthorController::show($id);
 });
+
+$routes->post('/author/:id/update', function($id) {
+  AuthorController::update($id);
+});
+
+$routes->post('/author/:id/delete', function($id) {
+  AuthorController::delete($id);
+});
+
+
 
 
 
@@ -75,11 +85,11 @@ $routes->post('/tag/new', function(){
     TagController::store();
 });
 
-$routes->post('/tag/update/:id', function($id){
+$routes->post('/tag/:id/update', function($id){
     TagController::update($id);
 });
 
-$routes->post('/tag/delete/:id', function($id){
+$routes->post('/tag/:id/delete', function($id){
     TagController::delete($id);
 });
 

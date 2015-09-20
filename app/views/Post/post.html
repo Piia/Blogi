@@ -8,7 +8,8 @@
     {{post.content}}
   </p>
   <p>
-    <button type="submit" class="btn btn-default" value="{{post.id}}">Kommentit</button>
+    <button type="submit" class="btn btn-default" value="{{post.id}}" onclick="window.alert('Kommentointi ei vielä toimi!');">Kommentit</button>
+    <a href="{{base_path}}/post/{{post.id}}/update" type="button" class="btn btn-default">Muokkaa</a>
   </p>
   <hr>
 </article>

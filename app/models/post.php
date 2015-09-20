@@ -56,4 +56,17 @@ class Post extends BaseModel{
       $row = $query->fetch();
       $this->id = $row['id'];
     }
+
+    public function update() {
+      $query = DB::connection()->prepare('UPDATE Post SET header = :header, content = :content, edited = :edited WHERE id = :id');
+      $query->execute(array('header' => $this->header, 'content' => $this->content, 'edited' => $this->edited, 'id' => $this->id));
+      $row = $query->fetch();
+    }
+
+    public function delete() {
+      $query = DB::connection()->prepare('DELETE FROM Post WHERE id = :id');
+      $query->execute(array('id' => $this->id));
+      $row = $query->fetch();
+    }
+
 }
