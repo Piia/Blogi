@@ -19,7 +19,7 @@ class TagController extends BaseController {
 
     $tag->save();
     Redirect::to('/tag/' . $tag->id);
-    //, array('message' => 'New post added to your blog!')
+    //, array('message' => 'Uusi tunniste lisätty!'));
   }
 
   public static function update($id) {

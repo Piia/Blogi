@@ -34,8 +34,11 @@
                 <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/">Etusivu</a></li>
                 <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/author">Bloggaajat</a></li>
                 <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/tag">Tunnisteet</a></li>
-                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/post/new">Uusi kirjoitus</a></li>
-                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/author/login">Kirjaudu sisään</a></li>                
+                {% if user_logged_in %}
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/post/new">Kirjautuneena [{{user_logged_in.name}}]</a></li>
+                {% else %}
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/author/login">Kirjaudu sisään</a></li>
+                {% endif %}                
               </ul>
             </nav>
 

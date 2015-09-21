@@ -6,10 +6,19 @@ class Tag extends BaseModel {
 
   	public function __construct($attributes) {
     	parent::__construct($attributes);
+      $this->validators = array();
+      $this->validators[] = $this->validate_name();
   	}
 
+    public function validate_name() {
+      $errors = array();
+      $errors[] = parent::not_null_string_validator($this->name);
+      $errors[] = parent::not_too_long_string_validator($this->name, 50);
+      return $errors;
+    }
+
   	public static function all() {
-    	$query = DB::connection()->prepare('SELECT * FROM Tag');
+    	$query = DB::connection()->prepare('SELECT * FROM Tag ORDER BY name');
     	$query->execute();
     	$rows = $query->fetchAll();
     	$tags = array();

@@ -9,7 +9,7 @@ class Post extends BaseModel{
   	}
 
   	public static function all(){
-    	$query = DB::connection()->prepare('SELECT * FROM Post');
+    	$query = DB::connection()->prepare('SELECT * FROM Post ORDER BY created DESC');
     	$query->execute();
     	$rows = $query->fetchAll();
     	$posts = array();
