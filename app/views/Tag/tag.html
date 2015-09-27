@@ -2,15 +2,27 @@
 {% block content %}
 
 	<article>
-		<h2>Tunniste: {{tag.name}}</h2>
+		<h2>Tunniste: {{tag.name}}{{attributes.name}}</h2>
+
+		{% if errors %}
+		<p>
+    		<div class="alert alert-danger">
+      			<ul>
+        			{% for error in errors %}
+          				<li>{{error}}</li>
+        			{% endfor %}
+      			</ul>
+    		</div>
+    	</p>
+  		{% endif %}
 
 		<p>
 
-			<form method="post" action="{{base_path}}/tag/{{tag.id}}/update">
+			<form method="post" action="{{base_path}}/tag/{{tag.id}}{{attributes.id}}/update">
 
   				<div class="form-group">
     				<label>Muokkaa nimeä</label>
-    				<input name="name" class="form-control" type="text" value="{{tag.name}}"></input>
+    				<input name="name" class="form-control" type="text" value="{{tag.name}}{{attributes.name}}"></input>
   				</div>
 
   				<button type="submit" class="btn btn-default">Lähetä</button>
@@ -24,7 +36,7 @@
 		<h3>Poista tunniste</h3>
 		<p>
 
-			<form method="post" action="{{base_path}}/tag/{{tag.id}}/delete" style="display: inline-block;">
+			<form method="post" action="{{base_path}}/tag/{{tag.id}}{{attributes.id}}/delete" style="display: inline-block;">
   				<button type="submit" class="btn btn-danger">Poista</button>
 			</form>
 

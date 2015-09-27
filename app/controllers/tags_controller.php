@@ -17,9 +17,16 @@ class TagController extends BaseController {
       'name' => $params['name']
     ));
 
-    $tag->save();
-    Redirect::to('/tag/' . $tag->id);
-    //, array('message' => 'Uusi tunniste lisätty!'));
+
+    $errors = $tag->errors();
+
+    if(count($errors) == 0){
+      $tag->save();
+      Redirect::to('/tag/' . $tag->id);
+      //, array('message' => 'Uusi tunniste lisätty!'));
+    } else {
+      View::make('Tag/index.html', array('errors' => $errors, 'old_name' => $tag->name));
+    }
   }
 
   public static function update($id) {
@@ -31,9 +38,15 @@ class TagController extends BaseController {
     );
 
     $tag = new Tag($attributes);
-    $tag->update();
-    Redirect::to('/tag/' . $tag->id);
-    //, array('message' => 'Tunniste muokattu!')
+    $errors = $tag->errors();
+
+    if(count($errors) == 0){
+      $tag->update();
+      Redirect::to('/tag/' . $tag->id);
+      //, array('message' => 'Tunniste muokattu!')
+    } else {
+      View::make('/Tag/tag.html', array('errors' => $errors, 'attributes' => $attributes));
+    }
   }
 
  

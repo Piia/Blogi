@@ -6,7 +6,34 @@ class Post extends BaseModel{
 
   	public function __construct($attributes){
     	parent::__construct($attributes);
+      $this->validators = array('validate_header', 'validate_content');
   	}
+
+    public function validate_header() {
+      $errors = array();
+      $firstValidator = parent::not_null_string_validator($this->header);
+      $secondValidator = parent::not_too_long_string_validator($this->header, 50);
+      if($firstValidator) {
+        $errors[] = $firstValidator;
+      }
+      if($secondValidator) {
+        $errors[] = $secondValidator;
+      }
+      return $errors;
+    }
+
+    public function validate_content() {
+      $errors = array();
+      $firstValidator = parent::not_null_string_validator($this->content);
+      $secondValidator = parent::not_too_long_string_validator($this->content, 1000);
+      if($firstValidator) {
+        $errors[] = $firstValidator;
+      }
+      if($secondValidator) {
+        $errors[] = $secondValidator;
+      }
+      return $errors;
+    }
 
   	public static function all(){
     	$query = DB::connection()->prepare('SELECT * FROM Post ORDER BY created DESC');

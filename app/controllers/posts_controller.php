@@ -13,17 +13,23 @@ class PostController extends BaseController{
 
     public static function store(){
         $params = $_POST;
-        $post = new Post(array(
+        $attributes = array(
             'author_id' => 1,
             'header' => $params['header'],
             'content' => $params['content'],
             'created' => date('Y-m-d'),
             'edited' => date('Y-m-d')
-        ));
+        );
+        $post = new Post($attributes);
+        $errors = $post->errors();
 
-        $post->save();
-        Redirect::to('/post/' . $post->id);
-        //, array('message' => 'New post added to your blog!')
+        if(count($errors) == 0){
+            $post->save();
+            Redirect::to('/post/' . $post->id);
+            //, array('message' => 'New post added to your blog!')
+        } else {
+            View::make('/Post/post_form.html', array('errors' => $errors, 'attributes' => $attributes));
+        }
     }
 
     public static function update($id) {
@@ -37,9 +43,15 @@ class PostController extends BaseController{
         );
 
         $post = new Post($attributes);
-        $post->update();
-        Redirect::to('/post/' . $post->id);
-        //, array('message' => 'Kirjoitusta muokattu!')
+        $errors = $post->errors();
+
+        if(count($errors) == 0){
+            $post->update();
+            Redirect::to('/post/' . $post->id);
+            //, array('message' => 'Kirjoitusta muokattu!')
+        } else {
+            View::make('/Post/update_form.html', array('errors' => $errors, 'attributes' => $attributes));
+        }
     }
 
  
