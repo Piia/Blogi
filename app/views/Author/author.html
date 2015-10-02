@@ -19,6 +19,10 @@
 
 	<hr>
 </article>
+
+{% if user_logged_in %}
+
+
 <article>
 	<h3>Muokkaa bloggaajan tietoja</h3>
 	<p>
@@ -47,7 +51,7 @@
 
 
 
-  			<button type="submit" class="btn btn-default">Lähetä</button>
+  			<button type="submit" class="btn btn-default">Tallenna tiedot</button>
   
   		</form>
 
@@ -65,5 +69,7 @@
 	</p>
 
 </article>
+
+{% endif %}
 
 {% endblock %}

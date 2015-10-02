@@ -8,9 +8,11 @@ class Comment extends BaseModel{
     	parent::__construct($attributes);
   	}
 
-  	public static function all(){
-    	$query = DB::connection()->prepare('SELECT * FROM Comment');
-    	$query->execute();
+  	public static function all($option){
+      $query_string = 'SELECT * FROM Comment WHERE post_id = :post_id';
+      $option = array('post_id' => $option);
+    	$query = DB::connection()->prepare($query_string);
+    	$query->execute($option);
     	$rows = $query->fetchAll();
     	$comments = array();
 
@@ -52,8 +54,8 @@ class Comment extends BaseModel{
   	}
 
     public function save(){
-      $query = DB::connection()->prepare('INSERT INTO Comment (name, header, content, created, edited) VALUES (:name, :header, :content, :created, :content) RETURNING id');
-      $query->execute(array('name' => $this->name, 'header' => $this->header, 'content' => $this->content, 'created' => $this->created, 'edited'=> $this->edited));
+      $query = DB::connection()->prepare('INSERT INTO Comment (name, header, content, created, edited, post_id) VALUES (:name, :header, :content, :created, :edited, :post_id) RETURNING id');
+      $query->execute(array('name' => $this->name, 'header' => $this->header, 'content' => $this->content, 'created' => $this->created, 'edited'=> $this->edited, 'post_id' => $this->post_id));
       $row = $query->fetch();
       $this->id = $row['id'];
     }

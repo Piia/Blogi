@@ -35,11 +35,19 @@
                 <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/author">Bloggaajat</a></li>
                 <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/tag">Tunnisteet</a></li>
                 {% if user_logged_in %}
-                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/post/new">Kirjoita [{{user_logged_in.name}}]</a></li>
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/post/new">Uusi kirjoitus</a></li>
+                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/author/{{user_logged_in.id}}">{{user_logged_in.name}}</a></li>
+                
+            </ul>
+                <form class="navbar-form navbar-right" method="post" action="{{base_path}}/author/logout">
+                    <button type="submit" class="btn btn-link">Kirjaudu ulos</button>
+                </form>
                 {% else %}
-                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/author/login">Kirjaudu sisään</a></li>
+            </ul>
+                <form class="navbar-form navbar-right" method="get" action="{{base_path}}/author/login">
+                    <button type="submit" class="btn btn-link">Kirjaudu sisään</button>
+                </form>
                 {% endif %}                
-              </ul>
             </nav>
 
             <div class="row">
@@ -69,14 +77,9 @@
 
                         <h4>Tunnisteet</h4>
                         <ol class="list-unstyled">
-                            <li><a href="#">Syksy</a></li>
-                            <li><a href="#">Kaupungilla</a></li>
-                            <li><a href="#">Rakkaus</a></li>
-                            <li><a href="#">Ulkoilu</a></li>
-                            
-                            <!-- {% for tag in tags %}
-                            <li><a href="#">{{tag.name}}</a></li>
-                            {% endfor %} -->
+                            {% for tag in tags %}
+                                <li><a href="http://piiahart.users.cs.helsinki.fi/tsoha/tag/{{tag.id}}">{{tag.name}}</a></li>
+                            {% endfor %} 
 
                         </ol>
 

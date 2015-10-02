@@ -25,6 +25,8 @@
 	<hr>
 </article>
 
+{% if user_logged_in %}
+
 <article>
 
 		<h3>Lisää uusi</h3>
@@ -59,5 +61,7 @@
 		</p>
 
 	</article>
+
+  {% endif %}
 
 {% endblock %}

@@ -3,27 +3,55 @@
 
 <article>
   <h2>{{post.header}}</h2>
-  <p>{{post.created}} by <a href="#">{{post.author}}</a></p>
+  <p>{{post.created}} by <a href="#">{{post.author.name}}</a></p>
   <p>
     {{post.content}}
   </p>
+  {% if user_logged_in %}
   <p>
-    <button type="submit" class="btn btn-default" value="{{post.id}}" onclick="window.alert('Kommentointi ei vielä toimi!');">Kommentit</button>
     <a href="{{base_path}}/post/{{post.id}}/update" type="button" class="btn btn-default">Muokkaa</a>
   </p>
+  {% endif %}
   <hr>
 </article>
 
-<!-- 
 {% for comment in comments %}
 	<article class="comment">
 		<h3>{{comment.header}}</h3>
-		<p>{{comment.created}} by {{comment.author}}</p>
+		<p>{{comment.created}} by {{comment.name}}</p>
 		<p>{{comment.content}}</p>
 		<hr>
 	</article>
 {% endfor %}
--->
+
+<article>
+
+  <h2>Uusi kommentti</h2>
+
+  <form method="post" action="{{base_path}}/comment/new">
+
+    <input name="post_id" value="{{post.id}}" type="hidden">
+
+    <div class="form-group">
+      <label>Nimi</label>
+      <input name="name" class="form-control" type="text"></input>
+    </div>
+
+    <div class="form-group">
+      <label>Otsikko</label>
+      <input name="header" class="form-control" type="text"></input>
+    </div>
+
+    <div class="form-group">
+      <label>Sisältö</label>
+      <textarea name="content" class="form-control" type="text" rows="15">Kirjoita tähän...</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-info">Lähetä</button>
+  
+  </form>
+
+</article>
 
 
 {% endblock %}

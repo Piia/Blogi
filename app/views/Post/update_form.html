@@ -29,9 +29,18 @@
   <div class="form-group">
     <label>Sisältö</label>
     <textarea name="content" class="form-control" type="text" rows="15">{{post.content}}{{attributes.header}}</textarea>
+  </div> 
+
+  <div class="form-group">
+    <label>Tunnisteet</label>
+    <select class="form-control" name="tags[]" multiple="">
+      {% for tag in tags %}
+        <option value="{{tag.id}}">{{tag.name}}</option>
+      {% endfor %}
+    </select>
   </div>
 
-  <button type="submit" class="btn btn-default">Lähetä</button>
+  <button type="submit" class="btn btn-default">Tallenna muutokset</button>
   
   </form>
 </article>

@@ -19,6 +19,8 @@
 
 <form method="post" action="{{base_path}}/post/new">
 
+  <input name="author_id" value="{{user_logged_in.id}}" type="hidden">
+
   <div class="form-group">
     <label>Otsikko</label>
     <input name="header" class="form-control" type="text" value="{{attributes.header}}"></input>
@@ -27,6 +29,15 @@
   <div class="form-group">
     <label>Sisältö</label>
     <textarea name="content" class="form-control" type="text" rows="15">{{attributes.content}}Kirjoita tähän...</textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Tunnisteet</label>
+    <select class="form-control" name="tags[]" multiple="">
+      {% for tag in tags %}
+        <option value="{{tag.id}}">{{tag.name}}</option>
+      {% endfor %}
+    </select>
   </div>
 
   <button type="submit" class="btn btn-default">Lähetä</button>

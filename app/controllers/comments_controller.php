@@ -14,15 +14,16 @@ class CommentController extends BaseController{
     public static function store(){
         $params = $_POST;
         $comment = new Comment(array(
-            'name' => $row['name'],
+            'name' => $params['name'],
             'header' => $params['header'],
             'content' => $params['content'],
-            'created' => $params['created'],
-            'edited' => $params['edited']
+            'created' => date('Y-m-d'),
+            'edited' => date('Y-m-d'),
+            'post_id' => $params['post_id']
         ));
 
         $comment->save();
-        Redirect::to('/comment/' . $comment->id);
+        Redirect::to('/post/' . $comment->post_id);
         //, array('message' => 'New post added to your blog!')
     }
 

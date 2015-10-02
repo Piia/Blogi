@@ -2,7 +2,7 @@
 
 class Post extends BaseModel{
 
-  	public $id, $author_id, $header, $content, $created, $edited;
+  	public $id, $author_id, $header, $content, $created, $edited, $tags, $author;
 
   	public function __construct($attributes){
     	parent::__construct($attributes);
@@ -35,22 +35,41 @@ class Post extends BaseModel{
       return $errors;
     }
 
-  	public static function all(){
-    	$query = DB::connection()->prepare('SELECT * FROM Post ORDER BY created DESC');
-    	$query->execute();
+  	public static function all($options){
+
+      if(isset($options['page'])){
+        $page = $options['page'];
+      } else {
+        $page = 1;
+      }
+
+      $query = DB::connection()->prepare('SELECT * FROM Post ORDER BY created DESC LIMIT :limit OFFSET :offset');
+      $query->execute(array('limit' => 10, 'offset' => 10 * ($page - 1)));
     	$rows = $query->fetchAll();
     	$posts = array();
 
     	foreach($rows as $row){
-      		$posts[] = new Post(array(
-        		'id' => $row['id'],
+          $post = new Post(array(
+            'id' => $row['id'],
             'author_id' => $row['author_id'],
-            //'author' => $(Author::find($posts['author_id']))->name,
             'header' => $row['header'],
             'content' => $row['content'],
             'created' => $row['created'],
             'edited' => $row['edited']
-      		));
+          ));
+
+          // Haetaan tagit.
+          $query2 = DB::connection()->prepare('SELECT * FROM Tag, Post_Tag WHERE Post_Tag.post_id = :id');
+          $query2->execute(array('id' => $row['id']));
+          $rows2 = $query2->fetch();
+          $post->tags = $rows2;
+
+          // Haetaan author.
+          if($post->author_id) {
+            $author = Author::find($post->author_id);
+            $post->author = $author;
+          }
+          $posts[] = $post;
     	}
 
     	return $posts;
@@ -71,6 +90,18 @@ class Post extends BaseModel{
             'edited' => $row['edited']
 	      ));
 
+        // Haetaan tagit.
+        $query2 = DB::connection()->prepare('SELECT * FROM Tag, Post_Tag WHERE Post_Tag.post_id = :id');
+        $query2->execute(array('id' => $id));
+        $rows2 = $query2->fetch();
+        $post->tags = $rows2;
+
+        // Haetaan author.
+        if($post->author_id) {
+          $author = Author::find($post->author_id);
+          $post->author = $author;
+        }
+
 	      return $post;
 	    }
 
@@ -78,22 +109,64 @@ class Post extends BaseModel{
   	}
 
     public function save(){
-      $query = DB::connection()->prepare('INSERT INTO Post (header, content, created, edited) VALUES (:header, :content, :created, :edited) RETURNING id');
-      $query->execute(array('header' => $this->header, 'content' => $this->content, 'created' => $this->created, 'edited' => $this->edited));
+      $query = DB::connection()->prepare('INSERT INTO Post (author_id, header, content, created, edited) VALUES (:author_id, :header, :content, :created, :edited) RETURNING id');
+      $query->execute(array('author_id' => $this->author_id, 'header' => $this->header, 'content' => $this->content, 'created' => $this->created, 'edited' => $this->edited));
       $row = $query->fetch();
       $this->id = $row['id'];
+
+      // lisätään tagit tietokantaan
+      $query_string = 'INSERT INTO Post_Tag (post_id, tag_id) VALUES ';
+      foreach ($this->tags as $tag_id) {
+        $query_string .= '(' . $this->id . ', ' . $tag_id . '),';
+      }
+      $query_string = chop($query_string, ',');
+      $query2 = DB::connection()->prepare($query_string);
+      $query2->execute();
+      $row2 = $query2->fetch();
     }
 
     public function update() {
       $query = DB::connection()->prepare('UPDATE Post SET header = :header, content = :content, edited = :edited WHERE id = :id');
       $query->execute(array('header' => $this->header, 'content' => $this->content, 'edited' => $this->edited, 'id' => $this->id));
       $row = $query->fetch();
+
+      // tagit
+      // ensin poistetaan vanhat tagit
+      $query3 = DB::connection()->prepare('DELETE FROM Post_Tag WHERE post_id = :id');
+      $query3->execute(array('id' => $this->id));
+      $row3 = $query3->fetch();
+
+      // sitten lisätään uudet tagit
+      $query_string = 'INSERT INTO Post_Tag (post_id, tag_id) VALUES ';
+      foreach ($this->tags as $tag_id) {
+        $query_string .= '(' . $this->id . ', ' . $tag_id . '),';
+      }
+      $query_string = chop($query_string, ',');
+      $query2 = DB::connection()->prepare($query_string);
+      $query2->execute();
+      $row2 = $query2->fetch();
     }
 
     public function delete() {
       $query = DB::connection()->prepare('DELETE FROM Post WHERE id = :id');
       $query->execute(array('id' => $this->id));
       $row = $query->fetch();
+
+      // poistetaan tagit
+      $query2 = DB::connection()->prepare('DELETE FROM Post_Tag WHERE post_id = :id');
+      $query2->execute(array('id' => $this->id));
+      $row2 = $query2->fetch();
     }
+
+    public function count() {
+      $query = DB::connection()->prepare('SELECT COUNT(*) FROM Post');
+      $query->execute();
+      $row = $query->fetch();
+      return $row['count'];
+    }
+
+
+
+
 
 }

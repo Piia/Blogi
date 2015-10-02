@@ -4,6 +4,8 @@
 	<article>
 		<h2>Tunniste: {{tag.name}}{{attributes.name}}</h2>
 
+		{% if user_logged_in %}
+
 		{% if errors %}
 		<p>
     		<div class="alert alert-danger">
@@ -41,6 +43,8 @@
 			</form>
 
 		</p>
+
+		{% endif %}
 
 	</article>
 
