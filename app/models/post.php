@@ -59,10 +59,18 @@ class Post extends BaseModel{
           ));
 
           // Haetaan tagit.
-          $query2 = DB::connection()->prepare('SELECT * FROM Tag, Post_Tag WHERE Post_Tag.post_id = :id');
+          $query2 = DB::connection()->prepare('SELECT * FROM Tag, Post_Tag WHERE Post_Tag.post_id = :id AND Post_Tag.tag_id = Tag.id');
           $query2->execute(array('id' => $row['id']));
-          $rows2 = $query2->fetch();
-          $post->tags = $rows2;
+          $rows2 = $query2->fetchAll();
+          $tags = array();
+          foreach ($rows2 as $row2) {
+            $tag = new Tag(array(
+              'id' => $row2['id'],
+              'name' => $row2['name']
+              ));
+            $tags[] = $tag;
+          }
+          $post->tags = $tags;
 
           // Haetaan author.
           if($post->author_id) {
@@ -91,10 +99,19 @@ class Post extends BaseModel{
 	      ));
 
         // Haetaan tagit.
-        $query2 = DB::connection()->prepare('SELECT * FROM Tag, Post_Tag WHERE Post_Tag.post_id = :id');
+        $query2 = DB::connection()->prepare('SELECT * FROM Tag, Post_Tag WHERE Post_Tag.post_id = :id and Post_Tag.tag_id = Tag.id');
         $query2->execute(array('id' => $id));
-        $rows2 = $query2->fetch();
-        $post->tags = $rows2;
+        $rows2 = $query2->fetchAll();
+
+        $tags = array();
+        foreach ($rows2 as $row2) {
+          $tag = new Tag(array(
+            'id' => $row2['id'],
+            'name' => $row2['name']
+            ));
+          $tags[] = $tag;
+        }
+        $post->tags = $tags;
 
         // Haetaan author.
         if($post->author_id) {

@@ -33,7 +33,7 @@
 
   <div class="form-group">
     <label>Tunnisteet</label>
-    <select class="form-control" name="tags[]" multiple="">
+    <select multiple class="form-control" name="tags[]">
       {% for tag in tags %}
         <option value="{{tag.id}}">{{tag.name}}</option>
       {% endfor %}
