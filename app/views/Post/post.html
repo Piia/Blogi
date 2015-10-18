@@ -25,6 +25,14 @@
 		<h3>{{comment.header}}</h3>
 		<p>{{comment.created}} by {{comment.name}}</p>
 		<p>{{comment.content}}</p>
+
+    {% if user_logged_in %}
+    <p>
+      <form method="post" action="{{base_path}}/comment/{{comment.id}}/delete" style="display: inline-block;">
+          <button type="submit" class="btn btn-danger">Poista</button>
+      </form>
+    </p>
+    {% endif %}
 		<hr>
 	</article>
 {% endfor %}
@@ -52,7 +60,7 @@
       <textarea name="content" class="form-control" type="text" rows="15">Kirjoita tähän...</textarea>
     </div>
 
-    <button type="submit" class="btn btn-info">Lähetä</button>
+    <button type="submit" class="btn btn-default">Lähetä</button>
   
   </form>
 

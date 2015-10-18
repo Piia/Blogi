@@ -1,6 +1,7 @@
 <?php 
 
 class AuthorController extends BaseController {
+
 	public static function index() {
     	$authors = Author::all();
     	View::make('Author/index.html', array('authors' => $authors));
@@ -22,7 +23,6 @@ class AuthorController extends BaseController {
 
     $author->save();
     Redirect::to('/author/' . $author->id);
-    //, array('message' => 'Uusi bloggaaja lisätty!')
   }
 
   public static function update($id) {
@@ -39,39 +39,33 @@ class AuthorController extends BaseController {
     $author = new Author($attributes);
     $author->update();
     Redirect::to('/author/' . $author->id);
-    //, array('message' => 'Bloggaajaa muokattu!')
   }
-
  
-  public static function delete($id){ 
+  public static function delete($id) { 
     $author = new Author(array('id' => $id));
     $author->delete();
     Redirect::to('/author');
-    //, array('message' => 'Bloggaaja poistettu!')
   }
 
 	public static function login_view() {
 		View::make('Author/login.html');
 	}
 
-  public static function logout(){
+  public static function logout() {
     $_SESSION['author'] = null;
     Redirect::to('/author/login');
-    //, array('message' => 'Olet kirjautunut ulos!'));
   }
 
 	public static function handle_login() {
 		$params = $_POST;
 		$author = Author::authenticate($params['name'], $params['password']);
 
-    	if(!$author){
+    	if(!$author) {
       		View::make('author/login.html');
-      		// array('error' => 'Väärä käyttäjätunnus tai salasana!', 'name' => $params['name'])
-    	}else{
+    	}  else {
       		$_SESSION['author'] = $author->id;
 
       		Redirect::to('/');
-      		// array('message' => 'Moro, ' . $->name . '!')
     	}
 	}
 }

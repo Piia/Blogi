@@ -44,8 +44,26 @@
 
 		</p>
 
-		{% endif %}
-
 	</article>
+
+		{% endif %}
+		
+		{% for post in posts %}
+
+		<article>
+		  <h2><a href="{{base_path}}/post/{{post.id}}">{{post.header}}</a></h2>
+		  <p>{{post.created}} by <a href="#">{{post.author.name}}</a></p>
+		  <p>
+		    {{post.content}}
+		  </p>
+		  <p>
+		   <form method="get" action="{{base_path}}/post/{{post.id}}">
+		    <button class="btn btn-default" type="submit">Kommentit</button>
+			 </form>
+		  </p>
+		  <hr>
+		</article>
+
+		{% endfor %}
 
 {% endblock %}

@@ -83,7 +83,34 @@ class Post extends BaseModel{
     	return $posts;
   	}
 
-  	public static function find($id){
+    public static function find_all_by_tag($tag) {
+      $query = DB::connection()->prepare('SELECT * FROM Post, Post_Tag WHERE Post_Tag.tag_id = :tag_id ORDER BY created DESC');
+      $query->execute(array('tag_id' => $tag -> id));
+      $rows = $query->fetchAll();
+      $posts = array();
+
+      foreach($rows as $row){
+          $post = new Post(array(
+            'id' => $row['id'],
+            'author_id' => $row['author_id'],
+            'header' => $row['header'],
+            'content' => $row['content'],
+            'created' => $row['created'],
+            'edited' => $row['edited']
+          ));
+
+          // Haetaan author.
+          if($post->author_id) {
+            $author = Author::find($post->author_id);
+            $post->author = $author;
+          }
+          $posts[] = $post;
+      }
+
+      return $posts;
+    }
+
+  	public static function find($id) {
     	$query = DB::connection()->prepare('SELECT * FROM Post WHERE id = :id LIMIT 1');
     	$query->execute(array('id' => $id));
     	$row = $query->fetch();
@@ -125,7 +152,7 @@ class Post extends BaseModel{
     	return null;
   	}
 
-    public function save(){
+    public function save() {
       $query = DB::connection()->prepare('INSERT INTO Post (author_id, header, content, created, edited) VALUES (:author_id, :header, :content, :created, :edited) RETURNING id');
       $query->execute(array('author_id' => $this->author_id, 'header' => $this->header, 'content' => $this->content, 'created' => $this->created, 'edited' => $this->edited));
       $row = $query->fetch();
@@ -173,6 +200,11 @@ class Post extends BaseModel{
       $query2 = DB::connection()->prepare('DELETE FROM Post_Tag WHERE post_id = :id');
       $query2->execute(array('id' => $this->id));
       $row2 = $query2->fetch();
+
+      // poistetaan kommentit
+      $query3 = DB::connection()->prepare('DELETE FROM Comment WHERE post_id = :id');
+      $query3->execute(array('id' => $this->id));
+      $row3 = $query3->fetch();
     }
 
     public function count() {

@@ -1,14 +1,14 @@
 <?php
 
-class Comment extends BaseModel{
+class Comment extends BaseModel {
 
   	public $id, $post_id, $name, $header, $content, $created, $edited;
 
-  	public function __construct($attributes){
+  	public function __construct($attributes) {
     	parent::__construct($attributes);
   	}
 
-  	public static function all($option){
+  	public static function all($option) {
       $query_string = 'SELECT * FROM Comment WHERE post_id = :post_id';
       $option = array('post_id' => $option);
     	$query = DB::connection()->prepare($query_string);
@@ -31,7 +31,7 @@ class Comment extends BaseModel{
     	return $comments;
   	}
 
-  	public static function find($id){
+  	public static function find($id) {
     	$query = DB::connection()->prepare('SELECT * FROM Comment WHERE id = :id LIMIT 1');
     	$query->execute(array('id' => $id));
     	$row = $query->fetch();
@@ -53,11 +53,17 @@ class Comment extends BaseModel{
     	return null;
   	}
 
-    public function save(){
+    public function save() {
       $query = DB::connection()->prepare('INSERT INTO Comment (name, header, content, created, edited, post_id) VALUES (:name, :header, :content, :created, :edited, :post_id) RETURNING id');
       $query->execute(array('name' => $this->name, 'header' => $this->header, 'content' => $this->content, 'created' => $this->created, 'edited'=> $this->edited, 'post_id' => $this->post_id));
       $row = $query->fetch();
       $this->id = $row['id'];
+    }
+
+    public function delete() {
+      $query = DB::connection()->prepare('DELETE FROM Comment WHERE id = :id');
+      $query->execute(array('id' => $this->id));
+      $row = $query->fetch();
     }
 
 }

@@ -121,6 +121,10 @@ $routes->post('/comment/new', function(){
   CommentController::store();
 });
 
+$routes->post('/comment/:id/delete', 'check_logged_in', function($id){
+  CommentController::delete($id);
+});
+
 $routes->get('/comment/:id', function($id){
   CommentController::show($id);
 });

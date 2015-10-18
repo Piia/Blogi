@@ -1,6 +1,6 @@
 <?php
 
-class Author extends BaseModel{
+class Author extends BaseModel {
 
   	public $id, $name, $password, $image_url, $description;
 
@@ -8,8 +8,8 @@ class Author extends BaseModel{
     	parent::__construct($attributes);
   	}
 
-  	public static function all(){
-    	$query = DB::connection()->prepare('SELECT * FROM Author');
+  	public static function all() {
+    	$query = DB::connection()->prepare('SELECT * FROM Author ORDER BY name');
     	$query->execute();
     	$rows = $query->fetchAll();
     	$authors = array();
@@ -27,7 +27,7 @@ class Author extends BaseModel{
     	return $authors;
   	}
 
-  	public static function find($id){
+  	public static function find($id) {
     	$query = DB::connection()->prepare('SELECT * FROM Author WHERE id = :id LIMIT 1');
     	$query->execute(array('id' => $id));
     	$row = $query->fetch();
@@ -47,7 +47,7 @@ class Author extends BaseModel{
     	return null;
   	}
 
-    public function save(){
+    public function save() {
       $query = DB::connection()->prepare('INSERT INTO Author (name, password, image_url, description) VALUES (:name, :password, :image_url, :description) RETURNING id');
       $query->execute(array('name' => $this->name, 'password' => $this->password, 'image_url' => $this->image_url, 'description' => $this->description));
       $row = $query->fetch();
