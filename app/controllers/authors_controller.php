@@ -61,7 +61,7 @@ class AuthorController extends BaseController {
 		$author = Author::authenticate($params['name'], $params['password']);
 
     	if(!$author) {
-      		View::make('author/login.html');
+      		View::make('Author/login.html', array('message'=>'Väärä tunnus tai salasana!'));
     	}  else {
       		$_SESSION['author'] = $author->id;
 
