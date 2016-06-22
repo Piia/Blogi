@@ -5,7 +5,6 @@ Yleisiä linkkejä:
 * [Linkki sovellukseeni](http://piiahart.users.cs.helsinki.fi/tsoha/)
 * [Linkki dokumentaatiooni](https://github.com/Piia/Blogi/blob/master/doc/dokumentaatio.pdf)
 
-Piilotan paraikaa toimintoja kirjautumisen taakse.
 Käytä tunnusta "Vieras" ja salasanaa "Vieras" tutustuaksesi paremmin sovellukseen.
 
 ## Työn aihe
